@@ -55,3 +55,97 @@ Dependency analysis in spreadsheets or databases.
 Cycle detection in directed graphs for academic and real-world use cases.
 Graph theory research and algorithm development.
 Contributions are welcome! If you'd like to enhance the project or report issues, please feel free to create a pull request or submit an issue.
+2. chatbot_for_CDP.PY
+# README for Data Sources Query System
+
+## Overview
+This project is a web-based query system that enables users to search and summarize information from multiple data source documentation websites. Built using Python and Streamlit, it integrates web scraping, semantic search, and text summarization techniques.
+
+## Features
+- **Web Scraping**: Scrapes text data from specified URLs.
+- **Text Chunking**: Splits scraped content into manageable chunks for processing.
+- **Semantic Search**: Retrieves the most relevant content chunks based on user queries using FAISS.
+- **Text Summarization**: Summarizes the retrieved content for user-friendly responses.
+- **Interactive Interface**: Streamlit-based UI for user queries and response display.
+
+## Prerequisites
+Ensure you have the following installed:
+- Python 3.8+
+- Required Python libraries:
+  - `requests`
+  - `beautifulsoup4`
+  - `sentence-transformers`
+  - `faiss`
+  - `numpy`
+  - `transformers`
+  - `streamlit`
+
+## Installation
+1. Clone the repository:
+   ```bash
+   git clone <repository_url>
+   cd <repository_name>
+   ```
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+## Usage
+1. Run the Streamlit application:
+   ```bash
+   streamlit run app.py
+   ```
+2. Open the application in your browser (default: `http://localhost:8501`).
+3. Enter a query in the input box and press **Submit** to get results.
+
+## Code Structure
+- `urls`: List of data source documentation URLs to be scraped.
+- `scrape_website(url)`: Function to fetch and extract textual content from a URL.
+- `split_text(text, chunk_size, overlap)`: Function to split text into chunks for better processing.
+- `setup_pipeline()`: Loads and caches the models, prepares the FAISS index, and initializes the summarization pipeline.
+- `query_pipeline(user_query)`: Searches the FAISS index for the most relevant chunks based on user queries.
+- `generate_response(retrieved_texts, user_query)`: Summarizes the retrieved chunks and generates a response.
+- Streamlit interface: Provides a user-friendly UI for queries and responses.
+
+## How It Works
+1. **Scraping and Preprocessing**:
+   - The script fetches and preprocesses text from specified documentation URLs.
+   - Text is split into smaller chunks for semantic indexing.
+
+2. **Semantic Indexing**:
+   - Text chunks are encoded into embeddings using `SentenceTransformer`.
+   - FAISS is used to index these embeddings for efficient semantic search.
+
+3. **Query and Summarization**:
+   - User queries are converted into embeddings and matched against the indexed chunks.
+   - Top matching chunks are summarized using the `facebook/bart-large-cnn` model.
+
+4. **Interactive UI**:
+   - Users can submit queries via a Streamlit-powered web interface.
+   - Results are displayed as concise summaries.
+
+## Example Query
+1. Start the Streamlit app.
+2. Enter a query like:
+   > "How does Segment handle data tracking?"
+3. View the summarized response derived from relevant documentation.
+
+## Notes
+- Ensure the URLs provided in the `urls` list are accessible and contain relevant textual data.
+- Modify `chunk_size` and `overlap` in `split_text` for optimal chunking based on content characteristics.
+
+## Future Enhancements
+- Add support for more complex queries.
+- Implement caching for scraped content to avoid repeated requests.
+- Enhance UI with additional features like keyword highlighting.
+- Extend support for other languages or domain-specific models.
+
+## License
+This project is licensed under the MIT License. See `LICENSE` for details.
+
+## Acknowledgements
+- [SentenceTransformers](https://www.sbert.net/)
+- [FAISS](https://github.com/facebookresearch/faiss)
+- [Transformers](https://huggingface.co/transformers)
+- [Streamlit](https://streamlit.io/)
